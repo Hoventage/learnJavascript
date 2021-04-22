@@ -625,6 +625,353 @@ calculator.addMethod("*", (a, b) => a * b);
 console.log(calculator.calculate("12 * 2"));*/
 
 //Перебираемые объекты
+/*let arr = ['el1', 'el2', 'el3'];
+
+arr.addedProp = 'arrProp';
+
+// for in перебирает КЕИ
+for (let elKey in arr) {
+    console.log(elKey);
+}
+console.log("__________")
+console.log(arr)
+// for of перебирает ВЭЛЬЮС
+for (let elValue of arr) {
+    console.log(elValue)
+}*/
+
+/*const date = {
+    from: 1,
+    to: 100
+};
+
+//Стандартная реализация итератора, чтобы сделать доступным перебор в for of цикле
+// 1. вызов for..of сначала вызывает эту функцию
+date[Symbol.iterator] = function () {
+    // ...она возвращает объект итератора:
+    // 2. Далее, for..of работает только с этим итератором, запрашивая у него новые значения
+    return {
+        startDate: this.from,
+        endDate: this.to,
+        next() {
+            if (this.startDate <= this.endDate) {
+                return {
+                    done: false,
+                    value: this.startDate++
+                };
+            } else {
+                return {
+                    done: true
+                };
+            }
+        }
+    }
+}
+
+for (let dateElement of date) {
+    console.log(dateElement);
+}
+
+let str = "Вот тебе на!"
+/!*for (let char of str) {
+    if (char === false) {
+        console.log(' ');
+    }
+    console.log(char);
+}*!/
+
+let iterator = str[Symbol.iterator]();
+
+while (true) {
+    let result = iterator.next();
+    if (result.done) {
+        break;
+    }
+
+    console.log(result.value);
+}
+
+//Array.from() приводит итерируемый объект или псевдомассив к обычному массиву
+// (перебираются все значения и кладутся в массив)
+//итерируемые объекты -> объекты, для которых реализован метод Symbol.iterator (или из коробки, или кастомно)
+let arrayFromDate = Array.from(date); // вторым аргументом можно додавить функцию, которая выполнится для каждого элемента
+// например ->>>>> Array.from(date, number => number * number);
+console.log(arrayFromDate);
+
+//псевдомассивы -> объекты, у которых есть индексы (1: 123, 2: 456 и так далее) и свойство length
+let arrayFromStr = Array.from(str);
+console.log(arrayFromStr);*/
+
+//Map and Set
+//в отличии от объектов, которые приводят кеи к строкам, в мапах как запишешь, так и ляжет :D
+/*let map = new Map();
+map
+    .set(1, "1")
+    .set(2, "2")
+    .set(true, "3");
+console.log(map.entries());
+console.log(map.keys());
+console.log(map.values());
+console.log(map.get(true));
+
+let company = {
+    name: "TestCompany",
+    employeesCount: 1000
+}
+
+map.set(company, 1);
+console.log(map.get(company));
+console.log(map.has(123));
+
+let newMap = new Map([
+    ["некая строка", 321],
+    [123, 321]
+]);
+console.log(newMap.entries());
+
+newMap.forEach((key, value) =>
+    console.log(key + value));
+
+//создание мапы из объекта
+let companyMap = new Map(Object.entries(company));
+console.log(companyMap);
+
+//создание объекта из мапы
+//let newCompany = Object.fromEntries(companyMap);
+let newCompanyTest = Object.fromEntries(companyMap.entries());
+/!*let newCompany = Object.fromEntries([
+    ["name", "TestCompany"],
+    ["employeesCount", 1000]
+]);*!/
+
+console.log(newCompanyTest);*/
+
+/*let set = new Set();
+set.add(123);
+set.add(456);
+set.add(789);
+set.add("the final element of the set");
+
+for (let setElement of set) {
+    console.log(setElement);
+}
+
+set.forEach(element => console.log(element));*/
+
+
+//Array.from() сделает массив из входных данных
+/*function unique(arr) {
+    return Array.from(new Set(arr));
+}
+
+let values = ["Hare", "Krishna", "Hare", "Krishna",
+    "Krishna", "Krishna", "Hare", "Hare", ":-O"
+];
+console.log(unique(values)); // Hare,Krishna,:-O*/
+
+
+/*function aClean(array) {
+    let map = new Map();
+
+    for (let word of array) {
+        let sorted = Array.from(word).sort().join("").toLowerCase();
+        map.set(sorted, word);
+    }
+
+    return Array.from(map.values());
+
+    /!*let set = new Set();
+    let arrayToReturn = [];
+
+    for (const arrayElement of array) {
+        set.add(Array.from(arrayElement).sort().join('').toLowerCase());
+    }
+
+    arrayToReturn = Array.from(set);
+
+    return arrayToReturn;*!/
+}
+
+let arr = ["nap", "teachers", "cheaters", "PAN", "ear", "era", "hectares"];
+
+console.log(aClean(arr)); // "nap,teachers,ear" or "PAN,cheaters,era"*/
+
+/*let map = new Map();
+
+map.set("name", "John");
+
+//map.keys() возвращает итерируемый объект, а не массив!!!
+
+let keys = Array.from(map.keys());
+console.log(keys);
+// Error: keys.push is not a function
+// Ошибка: keys.push -- это не функция
+keys.push("more");
+console.log(keys);*/
+
+//WeakMap and WeakSet
+//тут в качестве ключей - могут быть ТОЛЬКО объекты; при удалении ссылки на объект, пара ключ-значение так же удаляется из вик мапы сборщиком мусора
+//в обычных мапах и сетах объекты остаются доступными даже в случае зануления ссылок на них, так как они все еще есть в мапе/сете
+
+//в этом примере видно, что коллекция растет, считается количество входов (например) пользователя
+//если юзер уйдет (удалится), то коллекция останется и, когда юзер вернется, коллекция продолжит расти
+//и, при этом, информация из нее будет для нас почти бесполезна
+/*let map = new Map();
+let user = {
+    name: "Ivan",
+    age: 37
+}
+
+function countMe(thingToCount, map) {
+    let count = map.get(thingToCount) || 0;
+    map.set(thingToCount, count + 1);
+}
+
+countMe(user, map);
+console.log(map.get(user));
+countMe(user, map);
+console.log(map.get(user));
+countMe(user, map);
+console.log(map.get(user));
+
+user = null;
+console.log(map.get(user));
+console.log(map.size);
+console.log(map.has(user));
+console.log(map); //наш юзер все еще тут*/
+
+//тот же пример, но с использованием WeakMap
+/*let weakMap = new WeakMap();
+let user = {
+    name: "Ivan",
+    age: 37
+}
+
+function countMe(thingToCount, map) {
+    let count = map.get(thingToCount) || 0;
+    map.set(thingToCount, count + 1);
+}
+
+countMe(user, weakMap);
+console.log(weakMap.get(user));
+countMe(user, weakMap);
+console.log(weakMap.get(user));
+countMe(user, weakMap);
+console.log(weakMap.get(user));
+
+user = null;
+
+//если ключа нет, то вернется undefined
+console.log(weakMap.get(user)); //undefined, так как user был удален
+console.log(weakMap.get({
+    name: "test"
+})); //undefined, так как user был удален
+console.log(weakMap.has(user));
+console.log(weakMap); //должен быть пустым*/
+
+/*let messages = [
+    {text: "Hello", from: "John"},
+    {text: "How goes?", from: "John"},
+    {text: "See you soon", from: "Alice"}
+];
+
+function wasRead(messages) {
+    let weakMap = new WeakMap();
+    for (let message of messages) {
+        weakMap.set(message, false);
+    }
+
+    for (let i = 0; i < messages.length; i++) {
+        if (weakMap.has(messages[i])) {
+            let status = Symbol("was read");
+            messages[i][status] = true;
+            console.log(`The message ${messages[i].text} from ${messages[i].from} was read`);
+        } else {
+            console.log(`The message ${messages[i].text} from ${messages[i].from} wasn't read`);
+        }
+    }
+
+    for (let message of messages) {
+        if (Object.getOwnPropertySymbols(message) !== null) {
+            console.log(Object.getOwnPropertySymbols(message));
+        }
+    }
+}
+
+wasRead(messages);*/
+
+/*let messages = [
+    {text: "Hello", from: "John"},
+    {text: "How goes?", from: "John"},
+    {text: "See you soon", from: "Alice"}
+];
+
+let weakSet = new WeakSet();
+
+weakSet
+    .add(messages[0])
+    .add(messages[1])
+    .add(messages[2]);
+
+for (let message of messages) {
+    let isRead = Symbol("isRead");
+    message[isRead] = true;
+}
+
+messages.shift();*/
+
+/*let messages = [
+    { text: "Hello", from: "John" },
+    { text: "How goes?", from: "John" },
+    { text: "See you soon", from: "Alice" }
+];
+
+let weakMap = new WeakMap();
+weakMap
+    .set(messages[0], new Date(2021, 4, 20))
+    .set(messages[1], new Date(2021, 4, 20))
+    .set(messages[2], new Date(2021, 4, 20));
+
+messages[2] = null;
+
+for (let message of messages) {
+    console.log(weakMap.has(message));
+    console.log(weakMap.get(message));
+
+}*/
+
+//Object.keys, values, entries
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
